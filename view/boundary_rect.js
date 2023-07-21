@@ -6,7 +6,6 @@ module.exports = function( vs ){
       !vs.isset('boundary:rect:right') ||
       !vs.isset('boundary:rect:bottom') ||
       !vs.isset('boundary:rect:left') ||
-      !vs.isset('boundary:rect:type') ||
       !vs.isset('centroid:field') ){
     return null;
   }
@@ -14,7 +13,12 @@ module.exports = function( vs ){
   // base view
   var view = {
     geo_bounding_box: {
-      type: vs.var('boundary:rect:type')
+      // `type` was deprecated in es7.14
+      //
+      // According to https://github.com/pelias/documentation/blob/master/requirements.md#elasticsearch
+      // pelias supports back to es7.5+, so we should dynamically include this param depending on the
+      // es version. I'm not sure how to do that yet - can we pass it in through `vs`?
+      // type: vs.var('boundary:rect:type')
     }
   };
 
